@@ -35,7 +35,7 @@ export default {
               
               if (userInformations.crfa) {
                 alert('Successfully logged in');
-                this.$router.push('/dashboardFono');
+                this.$router.push({ name: 'Dashboard Fono', params: {docEmail: this.email, docPass: this.password }});
               }
               else {
                 alert('Successfully logged in');

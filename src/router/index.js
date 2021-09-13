@@ -25,6 +25,7 @@ const routes = [
     meta: {
       authRequired: true,
     },
+    props: true
   },
   {
     path: '/dashboardPaciente',

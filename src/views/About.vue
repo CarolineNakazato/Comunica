@@ -1,11 +1,11 @@
 <template>
     <div>
         <form @submit.prevent="register">
-        <h2>Register</h2>
-        <input type="email" placeholder="Email address..." v-model="email" />
-        <input type="password" placeholder="password..." v-model="password" />
-        <input type="number" placeholder="CRFa..." v-model="crfa" />
-        <button type="submit">Register</button>
+            <h2>Register</h2>
+            <input type="email" placeholder="Email address..." v-model="email" />
+            <input type="password" placeholder="password..." v-model="password" />
+            <input type="number" placeholder="CRFa..." v-model="crfa" />
+            <button type="submit">Register</button>
         </form>
     </div>
 </template>

@@ -9,6 +9,7 @@
             <input type="password" placeholder="Senha..." v-model="password" />
             <button @click="savePatient">Salvar Paciente</button>
         </div>
+
         <div>
             <table>
                 <thead>
@@ -57,10 +58,12 @@ export default {
             showSymbolForms: false,
             firestore: firebase.firestore(),
             patients: [],
-            symbolText: ""
+            symbolText: "",
+            currentPatient: null
         }
     },
     mounted() {
+        console.log(this.$router);
         this.getPatients();
     },
     methods: {
@@ -68,36 +71,46 @@ export default {
             this.showAddPatientForm = true;
         },
         savePatient: function() {
+            
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.email, this.password)
                     .then((registeredUser) => {
-                        this.firestore.collection("patient")
-                            .add({
-                                uid: registeredUser.user.uid,
-                                name: this.nome
+                        const {docEmail, docPass} = this.$router.currentRoute.value.params;
+                        firebase
+                            .auth()
+                            .signInWithEmailAndPassword(docEmail, docPass).then(() => {
+                                  this.firestore.collection("patient")
+                                    .add({
+                                        uid: registeredUser.user.uid,
+                                        name: this.nome,
+                                        doctorUid: firebase.auth().currentUser.uid
+                                    })
+                                
+                                    this.cleanForm();
+
+                                    this.showAddPatientForm = false;
+
+                                    this.getPatients();
                             })
-                        alert('Successfully registered! Please login.');
-                    
-                        this.cleanForm();
+                            .catch(error => {
+                                alert(error.message);
+                            });
 
-                        this.showAddPatientForm = false;
-
-                        this.getPatients();
                     })
                     .catch(error => {
                         alert(error.message);
                     });
         },
         getPatients: function() {
+            const uid = firebase.auth().currentUser.uid;
             this.firestore.collection("patient").get().then((patients) => {
                 let patientsList = [];
                 patients.docs.forEach(patient => {
                     let patientInformations = patient.data();
-                    console.log(patientInformations);
                     patientsList.push(patientInformations);
                 });
-                console.log(patientsList);
+                patientsList = patientsList.filter(patient => patient.doctorUid === uid);
                 this.patients = patientsList;
             })
         },
@@ -107,7 +120,7 @@ export default {
             this.email = "";
         },
         addSymbol: function(patient) {
-            console.log(patient);
+            this.currentPatient = patient;
             this.showSymbolForms = true;
             
         },
@@ -127,10 +140,18 @@ export default {
                 ()=>{
                     this.uploadValue=100;
                     storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                        this.picture = url;
+                        this.addCardToPatientCatalog(url);
                     });    
                 }
             );
+        },
+        addCardToPatientCatalog: function(url) {
+            this.firestore.collection("patientCatalog")
+                            .add({
+                                patientUid: this.currentPatient.uid,
+                                symbolText: this.symbolText,
+                                imageUrl: url
+                            })
         }
     }
 }
