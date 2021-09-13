@@ -4,13 +4,15 @@
         <h2>Register</h2>
         <input type="email" placeholder="Email address..." v-model="email" />
         <input type="password" placeholder="password..." v-model="password" />
+        <input type="number" placeholder="CRFa..." v-model="crfa" />
         <button type="submit">Register</button>
         </form>
     </div>
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
+import 'firebase/firestore';
 
 export default {
     name: "about",
@@ -18,6 +20,8 @@ export default {
         return {
             email: "",
             password: "",
+            crfa: "",
+            firestore: firebase.firestore()
         };
     },
     methods: {
@@ -25,7 +29,12 @@ export default {
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.email, this.password)
-                    .then(() => {
+                    .then((registeredUser) => {
+                        this.firestore.collection("usersCollection")
+                            .add({
+                                uid: registeredUser.user.uid,
+                                crfa: this.crfa
+                            })
                         alert('Successfully registered! Please login.');
                         this.$router.push('/');
                     })

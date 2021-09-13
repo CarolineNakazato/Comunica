@@ -18,10 +18,19 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: '/dashboardFono',
+    name: 'Dashboard Fono',
     component: () =>
-      import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+      import(/* webpackChunkName: "dashboardFono" */ '../views/DashboardFono.vue'),
+    meta: {
+      authRequired: true,
+    },
+  },
+  {
+    path: '/dashboardPaciente',
+    name: 'Dashboard Paciente',
+    component: () =>
+      import(/* webpackChunkName: "dashboardPaciente" */ '../views/DashboardPaciente.vue'),
     meta: {
       authRequired: true,
     },
