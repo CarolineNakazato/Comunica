@@ -28,20 +28,25 @@ export default {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
+        .then((loggedUserInformation) => {
+          console.log(loggedUserInformation);
           this.firestore.collection("usersCollection").get().then((users) => {
+            let usersInformations = [];
+
             users.docs.forEach(user => {
-              let userInformations = user.data();
-              
-              if (userInformations.crfa) {
-                alert('Successfully logged in');
-                this.$router.push({ name: 'Dashboard Fono', params: {docEmail: this.email, docPass: this.password }});
-              }
-              else {
-                alert('Successfully logged in');
-                this.$router.push('/dashboardPaciente');
-              }
+              usersInformations.push(user.data());
             });
+
+            const loggedUserInfo = usersInformations.filter(user => user.uid === loggedUserInformation.user.uid);
+
+            if (loggedUserInfo.length === 0) {
+              alert('Successfully logged in');
+              this.$router.push('/dashboardPaciente');
+            }
+            else {
+              alert('Successfully logged in');
+              this.$router.push({ name: 'Dashboard Fono', params: {docEmail: this.email, docPass: this.password }});
+            }
           })
         })
         .catch(error => {
