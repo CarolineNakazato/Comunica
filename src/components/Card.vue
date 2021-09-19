@@ -1,6 +1,6 @@
 <template>
     <section class="cards">
-        <div v-if="symbols && symbols.length > 0">
+        <div class="cards-content" v-if="symbols && symbols.length > 0">
             <template v-for="(symbol, i) in symbols" :key="symbol.imageUrl" >
                 <vue-swing :config="config"
                     @throwout="poop(i)" 
@@ -70,6 +70,14 @@ export default {
 </script>
 
 <style>
+.cards-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: -10vw;
+}
+
 .cards {
     display: flex;
     flex-direction: row;
@@ -87,7 +95,7 @@ export default {
     margin: 0 auto;
     background-color: #fff;
     border-radius: 32px;
-    box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.08);
     position: absolute;
     z-index: 1;
 }
@@ -106,6 +114,7 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 0.2em;
+    color:#000000
 }
  
 </style>

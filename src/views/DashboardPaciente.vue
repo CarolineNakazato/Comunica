@@ -31,7 +31,6 @@ export default {
                 symbols.push(symbolInformations);
             });
             symbols = symbols.filter(symbol => symbol.patientUid === uid);
-            console.log(symbols);
             this.symbols = symbols;
         })
     },

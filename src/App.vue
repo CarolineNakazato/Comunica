@@ -2,9 +2,7 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/register">Register</router-link> |
-    <router-link to="/dashboardFono">Fono</router-link> |
-    <router-link to="/dashboardPaciente">Paciente</router-link> |
-    <button @click="logout">Logout</button>
+    <a href="#" @click="logout">Logout</a>
   </div>
   <router-view />
 </template>
@@ -32,16 +30,14 @@ export default {
 </script>
 
 <style>
-input {   
-  margin-right: 20px; 
-}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
+  top: 0;
 }
 
 #nav {
@@ -50,7 +46,7 @@ input {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: white;
 }
 
 #nav a.router-link-exact-active {
