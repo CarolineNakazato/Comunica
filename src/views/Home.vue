@@ -46,11 +46,9 @@ export default {
             const loggedUserInfo = usersInformations.filter(user => user.uid === loggedUserInformation.user.uid);
             console.log(loggedUserInfo);
             if (loggedUserInfo.length === 0) {
-              alert('Successfully logged in');
               this.$router.push('/dashboardPaciente');
             }
             else {
-              alert('Successfully logged in');
               this.$router.push({ name: 'Dashboard Fono', params: {docEmail: this.email, docPass: this.password }});
             }
           })

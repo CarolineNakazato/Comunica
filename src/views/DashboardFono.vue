@@ -191,7 +191,9 @@ export default {
                                 patientUid: this.currentPatient.uid,
                                 symbolText: this.symbolText,
                                 imageUrl: url
-                            })
+                            });
+
+            this.cancelSymbol();
         }
     }
 }

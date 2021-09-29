@@ -16,4 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+document.title = "Comunica";
+
 createApp(App).use(router).mount("#app");
